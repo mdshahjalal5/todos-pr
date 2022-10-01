@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>storage full</title>
+</head>
+<body>
+    <h1>Storage learning</h1>
+    <!-- storage intro -->
+    <input type="text" name="" placeholder="name" id="name-field">
+    <button onclick="handleSubmit()" id="add-to-ls">Add to Ls</button>
+    <button onclick="clearAll()"  id="remove-from-ls">remove from ls</button>
+
+    <!-- second part --> <br><br><br>
+    <ul id="list-container">
+
+    </ul>
+
+    <script>
+        const getElement = id =>{
+            const element = document.getElementById(id);
+            return element;
+        };
+
+        const handleSubmit = () =>{
+            const inputText = getElement('name-field').value;
+           getElement('name-field').value = '';
+            
+            const todos = JSON.parse(localStorage.getItem('TODOS'));
+            if(!todos){
+
+                const todoList = [{
+                    title:inputText, 
+                    completed:false
+                }]
+                localStorage.setItem('TODOS', JSON.stringify(todoList));
+            }
+            else{
+                const todoList = [...todos,
+                {
+                    title:inputText, 
+                    completed: false
+                }
+            ];
+            localStorage.setItem('TODOS',JSON.stringify(todoList));
+            }
+            displayTitle();
+        }
+        
+        const displayTitle  = () =>{
+            const todos = JSON.parse(localStorage.getItem('TODOS'));
+            console.log(todos);
+            const ul = getElement('list-container');
+            ul.innerHTML = '';
+            todos?.forEach(item => {
+                console.log(item.title);
+                const li = document.createElement('li');
+                li.innerText = item.title;
+                ul.appendChild(li);
+            });
+        }
+        displayTitle();
+
+        const clearAll = () =>{
+            localStorage.clear();
+            displayTitle();
+        }
+    </script>
+
+</body>
+</html>
+
+
+<!-- 5:42 mnt  -->
